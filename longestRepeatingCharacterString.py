@@ -7,16 +7,49 @@
 
 # Examples:
 
-# Input: s = "ABBABB", k = 2 
+# Input: s = "ABAB", k = 2 
 # Output: 4 
 # Explanation: The string "ABBAB" can be fully converted into the same character using at most 2 changes. 
 # By replacing both 'A' with 'B', it becomes "BBBB". Hence, the maximum length is 4.
-# Input: s = "AsDBDe", k = 1
+# Input: s = "ADBD", k = 1
 # Output: 3
 # Explanation: In the string "ADBD", we can make at most 1 change. 
 # By changing 'B' to 'D', the string becomes "ADDD", which contains a substring "DDD" of length 3.
 
+#More clearer version
+def longestSubstringWithRepetition(str,k):
 
+    #count=k
+    freqCount={}
+    start=0
+    #max_so_far=0
+    max_length=0
+    #current_char=str[0]
+
+    for end in range(len(str)):
+        freqCount[str[end]]=freqCount.get(str[end],0)+1
+        max_freq=max(freqCount.values())
+        delta=sum(freqCount.values())-max_freq
+        while delta>k:
+            #delta-=1
+            freqCount[str[start]]-=1
+            if freqCount[str[start]]==0:
+                del freqCount[str[start]]
+            if(start==end):
+                break
+            start+=1
+            max_freq=max(freqCount.values())
+            delta=sum(freqCount.values())-max_freq
+            
+        max_length=max(max_length, end-start+1)
+
+    return max_length
+
+
+
+
+
+#uses a mathematical trick
 def longestStringIdentical(str,k):
     chars=list(str)
     start=0
@@ -48,4 +81,4 @@ def longestStringIdentical(str,k):
     return max_length
 
 if __name__=="__main__":
-    print(longestStringIdentical("ADBDDD",1))
+    print(longestSubstringWithRepetition("CABACBBA",1))

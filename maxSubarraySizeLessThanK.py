@@ -1,6 +1,6 @@
 # Given an array of positive integers arr[] of size n, and an integer k. 
 # The task is to find the maximum subarray size such that all subarrays of that size have sum less than or equals to k.
-# INFO: The task is equal to: find the minimum subrray size such that all even one subrray of such size has sum greater than k 
+# INFO: The task is equal to: find the minimum subrray size such that even one subrray of such size has sum greater than k 
 # (using formal logic, applies to +ve numbers)
 # Examples : 
 
@@ -31,8 +31,27 @@
 #indice :for(i=0,i<n,i++)
 #subarrayatIndice: for(j=i,j<n,j++)
 
-#[1, 2, 3, 4, 1], k = 8       r=l+1...r, subarraySum=arr[r]+arr[r-1]...arr[l], find max r-l such that for all max(subarraysum)<=k
+#[1, 2, 3, 4], k = 8       r=l+1...r, subarraySum=arr[r]+arr[r-1]...arr[l], find max r-l such that for all max(subarraysum)<=k
 # preSum: [1,3,6,10,11], subarray sum = presum[r]-presum[l], find max(r - l), such that max(presum[r]-presum[l])<=k 
+
+def slidingWindowMinK(arr,k):
+
+    minSoFar=len(arr)
+    start=0
+    sum=0
+    length=len(arr)
+    
+    for end in range(len(arr)):
+        sum+=arr[end]
+
+        while sum>k and start<=end:
+            sum-=arr[start]
+            length=end-start+1
+            start+=1
+
+        minSoFar=min(minSoFar, length)
+    
+    return minSoFar-1
 
 
 def minK(arr,k):
@@ -63,7 +82,7 @@ def minK(arr,k):
     return minSoFar
 
 if __name__=="__main__":
-    print(minK([1, 2, 3, 4,], 8))
+    print(slidingWindowMinK([1, 2, 3, 4, 1],8))
 
 
 
